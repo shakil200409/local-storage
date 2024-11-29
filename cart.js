@@ -5,8 +5,8 @@ const addProduct = () => {
   const quantity = quantityField.value;
   productField.value = "";
   quantityField.value = "";
-  console.log(product, quantity);
   displayProduct(product, quantity);
+  saveToLocalStorage(product, quantity);
 };
 
 const displayProduct = (product, quantity) => {
@@ -27,3 +27,19 @@ function getShoppingCart(){
     }
     return cart;
 }
+
+const saveToLocalStorage = (product, quantity) =>{
+  const cart = getShoppingCart();
+  cart[product] = quantity;
+  const cartStringified = JSON.stringify(cart);
+  localStorage.setItem("cart",cartStringified);
+}
+
+const displayProductFromLocalStorage = () =>{
+  const savedCart = getShoppingCart();
+  for(const product in savedCart){
+    const quantity = savedCart[product];
+    displayProduct(product, quantity)
+  }
+}
+displayProductFromLocalStorage();
